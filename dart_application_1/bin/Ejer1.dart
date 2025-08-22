@@ -1,41 +1,56 @@
+// Ejercicio 1: Calculadora de Propinas para Delivery
+
 import 'dart:io';
-import 'dart:mirrors';
 
 void main() {
-  print(" Calculadora de Propinas ");
-
-  stdout.write("Valor del pedido: ");
+  // Entrada: valor del pedido
+  stdout.write("Ingrese el valor del pedido: ");
   double valorPedido = double.parse(stdin.readLineSync()!);
 
-  stdout.write("Tipo de servicio (1-Comida, 2-Farmacia, 3-Supermercado): ");
-  int tipoServicio = int.parse(stdin.readLineSync()!);
+  // Entrada: tipo de servicio
+  stdout.write("Ingrese el tipo de servicio (comida/farmacia/supermercado): ");
+  String tipoServicio = stdin.readLineSync()!.toLowerCase();
 
-  stdout.write("Calidad del servicio (1-Excelente, 2-Bueno, 3-Regular): ");
-  int calidad = int.parse(stdin.readLineSync()!);
+  // Entrada: calidad del servicio
+  stdout.write("Ingrese la calidad del servicio (excelente/bueno/regular): ");
+  String calidad = stdin.readLineSync()!.toLowerCase();
 
+  // Definir porcentaje de propina según calidad
   double porcentajePropina;
   switch (calidad) {
-    case 1:
+    case "excelente":
       porcentajePropina = 0.20;
       break;
-    case 2:
+    case "bueno":
       porcentajePropina = 0.15;
       break;
+    case "regular":
+      porcentajePropina = 0.10;
+      break;
     default:
+      print(" Calidad no válida, se asumirá 'regular'.");
       porcentajePropina = 0.10;
   }
 
+  // Cálculo de propina y total
   double propina = valorPedido * porcentajePropina;
-  double total = valorPedido + propina;
+  double totalPagar = valorPedido + propina;
 
-  print("\nPropina sugerida: \$${propina.toStringAsFixed(2)}");
-  print("Total a pagar: \$${total.toStringAsFixed(2)}");
-
-  if (calidad == 1) {
-    print("¡Excelente elección de servicio! 🚀");
-  } else if (calidad == 2) {
-    print("Gracias por tu preferencia 👍");
+  // Mensaje personalizado
+  String mensaje;
+  if (calidad == "excelente") {
+    mensaje = "¡Gracias por su confianza! El repartidor hizo un trabajo sobresaliente.";
+  } else if (calidad == "bueno") {
+    mensaje = "El servicio fue bueno, gracias por apoyar al repartidor.";
   } else {
-    print("Esperamos que la próxima vez sea mejor 😊");
+    mensaje = "El servicio fue aceptable, siempre se aprecia la propina.";
   }
+
+  // Salida
+  print("\n--- Resumen del pedido ---");
+  print("Tipo de servicio: $tipoServicio");
+  print("Valor del pedido: \$${valorPedido.toStringAsFixed(2)}");
+  print("Propina sugerida: \$${propina.toStringAsFixed(2)}");
+  print("Total a pagar: \$${totalPagar.toStringAsFixed(2)}");
+  print("Mensaje: $mensaje");
 }
